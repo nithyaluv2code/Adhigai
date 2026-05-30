@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adhigai Boutique</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:       #1a1410;
+    --ink-soft:  #5c4f43;
+    --ink-mute:  #9c8c7e;
+    --paper:     #faf6f1;
+    --paper-2:   #f2ebe1;
+    --paper-3:   #e8ddd0;
+    --gold:      #b8864e;
+    --gold-light:#d4a96a;
+    --gold-pale: #f5e8d4;
+    --rust:      #9b4f2a;
+    --sage:      #6b7c5e;
+    --cream:     #fff9f2;
+    --radius:    4px;
+    --shadow:    0 2px 20px rgba(26,20,16,0.08);
+    --shadow-lg: 0 8px 40px rgba(26,20,16,0.14);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none !important; }
+  .screen.active { display: block !important; }
+  #login-screen.active { display: flex !important; }
+
+  /* ── LOGIN ── */
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .login-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(184,134,78,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(107,124,94,0.08) 0%, transparent 50%);
+  }
+  .login-card {
+    position: relative;
+    background: var(--cream);
+    border: 1px solid var(--paper-3);
+    border-radius: 2px;
+    padding: 52px 48px 48px;
+    width: 420px;
+    box-shadow: var(--shadow-lg);
+  }
+  .brand-logo {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .brand-emblem {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px; height: 64px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .brand-emblem::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 0.5px solid var(--gold-light);
+    border-radius: 50%;
+  }
+  .brand-emblem span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: var(--ink);
+    text-transform: uppercase;
+    display: block;
+  }
+  .brand-tagline {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 4px;
+    display: block;
+  }
+
+  .login-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--paper-3);
+  }
+  .login-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border-top: none; border-left: none; border-right: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .login-tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  .form-group { margin-bottom: 20px; }
+  .form-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--paper);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--gold); }
+
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--gold);
+    color: var(--cream);
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .btn-primary:hover { background: var(--rust); }
+
+  .login-hint {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-mute);
+    line-height: 1.8;
+  }
+  .login-hint strong { color: var(--ink-soft); font-weight: 500; }
+  .login-error {
+    color: var(--rust);
+    font-size: 12px;
+    margin-top: 10px;
+    text-align: center;
+    display: none;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--cream);
+    border-bottom: 1px solid var(--paper-3);
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .nav-emblem {
+    width: 38px; height: 38px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-emblem span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--gold);
+  }
+  .nav-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .nav-user {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+  }
+  .btn-logout {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: none;
+    border: 1px solid var(--paper-3);
+    padding: 7px 16px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-logout:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── CUSTOMER VIEW ── */
+  .shop-hero {
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--paper-3);
+    padding: 48px 48px 40px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .hero-text h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: var(--ink);
+  }
+  .hero-text h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-text p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+    line-height: 1.7;
+    max-width: 400px;
+  }
+  .hero-meta {
+    text-align: right;
+    font-size: 12px;
+    color: var(--ink-mute);
+    line-height: 2;
+    letter-spacing: 0.5px;
+  }
+  .hero-meta strong {
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: block;
+    font-size: 13px;
+  }
+
+  /* Category filter */
+  .filter-bar {
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--paper-3);
+    flex-wrap: wrap;
+  }
+  .filter-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-right: 4px;
+  }
+  .filter-chip {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--paper-3);
+    background: transparent;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .filter-chip:hover, .filter-chip.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: white;
+  }
+
+  /* Product grid */
+  .products-section { padding: 36px 48px 60px; }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 28px;
+  }
+  .product-card {
+    background: var(--cream);
+    border: 1px solid var(--paper-3);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  .product-image {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    position: relative;
+    background: var(--paper-2);
+  }
+  .product-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .product-card:hover .product-image img { transform: scale(1.04); }
+  .product-image-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: var(--ink-mute);
+    gap: 10px;
+  }
+  .product-image-placeholder svg { opacity: 0.4; }
+  .product-image-placeholder span { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.5; }
+  .stock-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .stock-badge.in { background: rgba(107,124,94,0.15); color: var(--sage); }
+  .stock-badge.low { background: rgba(184,134,78,0.15); color: var(--gold); }
+  .stock-badge.out { background: rgba(155,79,42,0.12); color: var(--rust); }
+  .category-tag {
+    position: absolute;
+    bottom: 12px; left: 12px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    background: rgba(250,246,241,0.92);
+    color: var(--ink-soft);
+    border-radius: 20px;
+    border: 1px solid var(--paper-3);
+  }
+  .product-info { padding: 16px 18px 20px; }
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .product-desc {
+    font-size: 12px;
+    color: var(--ink-mute);
+    line-height: 1.6;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .product-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .product-price span {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--ink-soft);
+    margin-right: 2px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .product-qty {
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.5px;
+  }
+  .whatsapp-btn {
+    margin: 14px 18px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px;
+    background: transparent;
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .whatsapp-btn:hover { border-color: #25d366; color: #25d366; }
+  .whatsapp-btn svg { flex-shrink: 0; }
+
+  /* ── ADMIN VIEW ── */
+  .admin-layout {
+    display: flex;
+    min-height: calc(100vh - 68px);
+  }
+  .admin-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--cream);
+    border-right: 1px solid var(--paper-3);
+    padding: 32px 0;
+  }
+  .sidebar-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    padding: 0 24px;
+    margin-bottom: 12px;
+  }
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+    background: none;
+    border-top: none; border-right: none; border-bottom: none;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+  }
+  .sidebar-item:hover { color: var(--gold); background: var(--gold-pale); }
+  .sidebar-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-pale); }
+  .sidebar-item svg { flex-shrink: 0; opacity: 0.7; }
+  .sidebar-divider { border: none; border-top: 1px solid var(--paper-3); margin: 16px 0; }
+
+  .admin-main { flex: 1; padding: 36px 44px; overflow-y: auto; background: var(--paper); }
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .admin-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .admin-subtitle { font-size: 13px; color: var(--ink-mute); margin-top: 2px; }
+  .btn-add {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    background: var(--gold);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-add:hover { background: var(--rust); }
+
+  /* Admin stats */
+  .admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--cream);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+  }
+  .stat-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 8px; }
+  .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 400; color: var(--ink); line-height: 1; }
+  .stat-note { font-size: 11px; color: var(--ink-mute); margin-top: 4px; }
+
+  /* Admin product table */
+  .admin-table-wrap {
+    background: var(--cream);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .admin-table { width: 100%; border-collapse: collapse; }
+  .admin-table th {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--paper-3);
+    background: var(--paper-2);
+    font-weight: 400;
+  }
+  .admin-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--paper-3);
+    font-size: 13px;
+    color: var(--ink-soft);
+    vertical-align: middle;
+  }
+  .admin-table tr:last-child td { border-bottom: none; }
+  .admin-table tr:hover td { background: var(--paper); }
+  .thumb-wrap {
+    width: 44px; height: 56px;
+    background: var(--paper-2);
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--paper-3);
+    flex-shrink: 0;
+  }
+  .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb-empty {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-mute); font-size: 18px;
+  }
+  .product-cell { display: flex; align-items: center; gap: 14px; }
+  .product-cell-name { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: var(--ink); }
+  .product-cell-cat { font-size: 11px; color: var(--ink-mute); letter-spacing: 0.5px; }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .badge-in { background: rgba(107,124,94,0.12); color: var(--sage); }
+  .badge-low { background: rgba(184,134,78,0.15); color: var(--gold); }
+  .badge-out { background: rgba(155,79,42,0.12); color: var(--rust); }
+  .action-btns { display: flex; gap: 8px; }
+  .btn-edit, .btn-img {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-edit {
+    background: transparent;
+    border: 1px solid var(--paper-3);
+    color: var(--ink-soft);
+  }
+  .btn-edit:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-img {
+    background: transparent;
+    border: 1px solid var(--paper-3);
+    color: var(--ink-soft);
+  }
+  .btn-img:hover { border-color: var(--sage); color: var(--sage); }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(26,20,16,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--cream);
+    border-radius: 2px;
+    border: 1px solid var(--paper-3);
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+  .modal-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--paper-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .modal-close {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--paper-3);
+    background: none;
+    cursor: pointer;
+    color: var(--ink-mute);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { border-color: var(--rust); color: var(--rust); }
+  .modal-body { padding: 28px 32px; }
+  .modal-body .form-group { margin-bottom: 18px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--paper);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+  }
+  .form-textarea:focus { border-color: var(--gold); }
+  .form-select {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--paper);
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .form-select:focus { border-color: var(--gold); }
+
+  .image-upload-zone {
+    border: 2px dashed var(--paper-3);
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .image-upload-zone:hover { border-color: var(--gold-light); }
+  .image-upload-zone input[type="file"] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .upload-icon { color: var(--ink-mute); margin-bottom: 10px; }
+  .upload-text { font-size: 13px; color: var(--ink-mute); }
+  .upload-sub { font-size: 11px; color: var(--ink-mute); margin-top: 4px; letter-spacing: 0.3px; }
+  .image-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .image-preview-item {
+    aspect-ratio: 3/4;
+    border-radius: 2px;
+    overflow: hidden;
+    border: 1px solid var(--paper-3);
+    position: relative;
+    background: var(--paper-2);
+  }
+  .image-preview-item img { width: 100%; height: 100%; object-fit: cover; }
+  .img-remove {
+    position: absolute; top: 4px; right: 4px;
+    width: 22px; height: 22px;
+    background: rgba(26,20,16,0.6);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+    padding: 0;
+  }
+  .modal-footer {
+    padding: 20px 32px 28px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid var(--paper-3);
+  }
+  .btn-cancel {
+    padding: 12px 24px;
+    background: none;
+    border: 1px solid var(--paper-3);
+    border-radius: var(--radius);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-cancel:hover { border-color: var(--ink-soft); }
+  .btn-save {
+    padding: 12px 28px;
+    background: var(--gold);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+  }
+  .btn-save:hover { background: var(--rust); }
+
+  /* no results */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-mute);
+  }
+  .empty-state p { font-size: 14px; margin-top: 12px; }
+
+  /* toast */
+  .toast {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 14px 22px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    z-index: 9999;
+    pointer-events: none;
+    max-width: 300px;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════════════ -->
+<div id="login-screen" class="screen active">
+  <div class="login-bg"></div>
+  <div class="login-card">
+    <div class="brand-logo">
+      <div class="brand-emblem"><span>A</span></div>
+      <span class="brand-name">Adhigai</span>
+      <span class="brand-tagline">Handcrafted Indian Wear</span>
+    </div>
+    <div class="login-tabs">
+      <button class="login-tab active" onclick="switchTab('customer')">Customer</button>
+      <button class="login-tab" onclick="switchTab('admin')">Admin</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input class="form-input" id="login-user" type="text" placeholder="Enter username" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input class="form-input" id="login-pass" type="password" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn-primary" onclick="doLogin()">Enter</button>
+    <div class="login-error" id="login-error">Invalid credentials. Please try again.</div>
+    <div class="login-hint">
+      <strong>Customer:</strong> user / user123<br>
+      <strong>Admin:</strong> admin / admin123
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     CUSTOMER SCREEN
+════════════════════════════════════════ -->
+<div id="customer-screen" class="screen">
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-emblem"><span>A</span></div>
+      <span class="nav-title">Adhigai</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-user">Welcome, Guest</span>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="shop-hero">
+    <div class="hero-text">
+      <h1>New <em>Arrivals</em><br>Summer '25</h1>
+      <p>Handpicked kurtas, salwars and co-ord sets crafted from breathable cotton and luxurious silks. Shipped across India.</p>
+    </div>
+    <div class="hero-meta">
+      <strong>Order via WhatsApp</strong>
+      +91 94861 95701<br>
+      <strong>Pay via GPay</strong>
+      Adhigai.boutique@okaxis<br>
+      <strong>Ships in</strong> 2–4 days
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <span class="filter-label">Category</span>
+    <button class="filter-chip active" onclick="filterProducts('all',this)">All</button>
+    <button class="filter-chip" onclick="filterProducts('Kurta',this)">Kurtas</button>
+    <button class="filter-chip" onclick="filterProducts('Salwar Set',this)">Salwar Sets</button>
+    <button class="filter-chip" onclick="filterProducts('Co-ord Set',this)">Co-ord Sets</button>
+    <button class="filter-chip" onclick="filterProducts('Dupatta',this)">Dupattas</button>
+  </div>
+
+  <div class="products-section">
+    <div class="products-grid" id="products-grid"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     ADMIN SCREEN
+════════════════════════════════════════ -->
+<div id="admin-screen" class="screen">
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-emblem"><span>A</span></div>
+      <span class="nav-title">Adhigai — Admin</span>
+    </div>
+    <div class="nav-right">
+      <span class="nav-user">Admin</span>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-label">Manage</div>
+      <button class="sidebar-item active" onclick="showAdminSection('products',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>
+        Products
+      </button>
+      <button class="sidebar-item" onclick="showAdminSection('add',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+        Add Product
+      </button>
+      <hr class="sidebar-divider">
+      <div class="sidebar-label">Overview</div>
+      <button class="sidebar-item" onclick="showAdminSection('stats',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-6"/></svg>
+        Stats
+      </button>
+    </aside>
+
+    <main class="admin-main">
+      <!-- Products list section -->
+      <div id="section-products">
+        <div class="admin-header">
+          <div>
+            <div class="admin-title">All Products</div>
+            <div class="admin-subtitle" id="admin-product-count"></div>
+          </div>
+          <button class="btn-add" onclick="openAddModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Add Product
+          </button>
+        </div>
+        <div class="admin-stats" id="admin-stats-row"></div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Qty</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Add product section -->
+      <div id="section-add" style="display:none">
+        <div class="admin-header">
+          <div>
+            <div class="admin-title">Add New Product</div>
+            <div class="admin-subtitle">Fill in details and upload photos</div>
+          </div>
+        </div>
+        <div style="background:var(--cream);border:1px solid var(--paper-3);border-radius:var(--radius);padding:32px;max-width:600px;">
+          <div class="form-row" style="margin-bottom:18px;">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Product Name</label>
+              <input class="form-input" id="add-name" type="text" placeholder="e.g. Indigo Block Print Kurta">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Category</label>
+              <select class="form-select" id="add-cat">
+                <option value="Kurta">Kurta</option>
+                <option value="Salwar Set">Salwar Set</option>
+                <option value="Co-ord Set">Co-ord Set</option>
+                <option value="Dupatta">Dupatta</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-textarea" id="add-desc" placeholder="Fabric, occasion, care instructions…"></textarea>
+          </div>
+          <div class="form-row" style="margin-bottom:18px;">
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Price (₹)</label>
+              <input class="form-input" id="add-price" type="number" placeholder="1299">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Available Qty</label>
+              <input class="form-input" id="add-qty" type="number" placeholder="10">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Product Photos</label>
+            <div class="image-upload-zone" id="add-upload-zone">
+              <input type="file" accept="image/*" multiple onchange="handleAddImages(this)">
+              <div class="upload-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </div>
+              <div class="upload-text">Tap to upload photos</div>
+              <div class="upload-sub">JPG, PNG — up to 5 images</div>
+            </div>
+            <div class="image-preview-grid" id="add-preview-grid"></div>
+          </div>
+          <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:8px;">
+            <button class="btn-cancel" onclick="clearAddForm()">Clear</button>
+            <button class="btn-save" onclick="saveNewProduct()">Save Product</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats section -->
+      <div id="section-stats" style="display:none">
+        <div class="admin-header">
+          <div>
+            <div class="admin-title">Overview</div>
+            <div class="admin-subtitle">Inventory snapshot</div>
+          </div>
+        </div>
+        <div class="admin-stats" id="stats-grid"></div>
+        <div style="margin-top:24px;background:var(--cream);border:1px solid var(--paper-3);border-radius:var(--radius);padding:28px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;margin-bottom:18px;color:var(--ink);">Stock by Category</div>
+          <div id="stats-breakdown"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ── EDIT MODAL ── -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Edit Product</span>
+      <button class="modal-close" onclick="closeModal('edit-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-id">
+      <div class="form-group">
+        <label class="form-label">Product Name</label>
+        <input class="form-input" id="edit-name" type="text">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Price (₹)</label>
+          <input class="form-input" id="edit-price" type="number">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Available Qty</label>
+          <input class="form-input" id="edit-qty" type="number">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="edit-cat">
+          <option value="Kurta">Kurta</option>
+          <option value="Salwar Set">Salwar Set</option>
+          <option value="Co-ord Set">Co-ord Set</option>
+          <option value="Dupatta">Dupatta</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-textarea" id="edit-desc"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('edit-modal')">Cancel</button>
+      <button class="btn-save" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── IMAGE MODAL ── -->
+<div class="modal-overlay" id="img-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Manage Photos</span>
+      <button class="modal-close" onclick="closeModal('img-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="img-product-id">
+      <div class="form-group">
+        <label class="form-label">Upload New Photos</label>
+        <div class="image-upload-zone">
+          <input type="file" accept="image/*" multiple onchange="handleImageUpload(this)">
+          <div class="upload-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="upload-text">Tap to select photos</div>
+          <div class="upload-sub">JPG, PNG — up to 5 images</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Current Photos</label>
+        <div class="image-preview-grid" id="img-preview-grid"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('img-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════
+function makeSVG(svgContent, bg) {
+  const full = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400"><rect width="300" height="400" fill="${bg}"/>${svgContent}</svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(full);
+}
+
+const PRODUCT_IMAGES = {
+  // 1: Indigo Block Print Kurta — deep indigo with geometric block print motifs
+  1: makeSVG(`
+    <defs>
+      <pattern id="bp" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+        <rect width="40" height="40" fill="#2d3a7c"/>
+        <rect x="8" y="8" width="10" height="10" fill="none" stroke="#7b8fd4" stroke-width="1.2"/>
+        <rect x="10" y="10" width="6" height="6" fill="#7b8fd4" opacity="0.5"/>
+        <circle cx="4" cy="4" r="2" fill="#9baae0" opacity="0.4"/>
+        <circle cx="36" cy="4" r="2" fill="#9baae0" opacity="0.4"/>
+        <circle cx="4" cy="36" r="2" fill="#9baae0" opacity="0.4"/>
+        <circle cx="36" cy="36" r="2" fill="#9baae0" opacity="0.4"/>
+        <line x1="20" y1="0" x2="20" y2="6" stroke="#7b8fd4" stroke-width="0.8" opacity="0.5"/>
+        <line x1="20" y1="34" x2="20" y2="40" stroke="#7b8fd4" stroke-width="0.8" opacity="0.5"/>
+        <line x1="0" y1="20" x2="6" y2="20" stroke="#7b8fd4" stroke-width="0.8" opacity="0.5"/>
+        <line x1="34" y1="20" x2="40" y2="20" stroke="#7b8fd4" stroke-width="0.8" opacity="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="300" height="400" fill="url(#bp)"/>
+    <!-- kurta silhouette -->
+    <path d="M90,60 L70,90 L50,110 L65,118 L80,105 L80,320 Q80,335 95,335 L205,335 Q220,335 220,320 L220,105 L235,118 L250,110 L230,90 L210,60 Q185,50 150,50 Q115,50 90,60 Z" fill="#1e2a6b" opacity="0.92"/>
+    <!-- neckline -->
+    <path d="M120,60 Q150,85 180,60" fill="none" stroke="#9baae0" stroke-width="2"/>
+    <!-- sleeve detail lines -->
+    <line x1="68" y1="95" x2="75" y2="108" stroke="#7b8fd4" stroke-width="1" opacity="0.7"/>
+    <line x1="232" y1="95" x2="225" y2="108" stroke="#7b8fd4" stroke-width="1" opacity="0.7"/>
+    <!-- hem border -->
+    <rect x="80" y="315" width="140" height="8" fill="#7b8fd4" opacity="0.5" rx="1"/>
+    <!-- centre print motif -->
+    <rect x="138" y="150" width="24" height="24" fill="none" stroke="#9baae0" stroke-width="1.5"/>
+    <rect x="143" y="155" width="14" height="14" fill="#9baae0" opacity="0.35"/>
+    <rect x="133" y="145" width="8" height="8" fill="none" stroke="#9baae0" stroke-width="1" opacity="0.6"/>
+    <rect x="159" y="145" width="8" height="8" fill="none" stroke="#9baae0" stroke-width="1" opacity="0.6"/>
+    <rect x="133" y="169" width="8" height="8" fill="none" stroke="#9baae0" stroke-width="1" opacity="0.6"/>
+    <rect x="159" y="169" width="8" height="8" fill="none" stroke="#9baae0" stroke-width="1" opacity="0.6"/>
+  `, '#2d3a7c'),
+
+  // 2: Rose Gold Chanderi Set — blush pink with gold zari border
+  2: makeSVG(`
+    <defs>
+      <pattern id="zari" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+        <rect width="20" height="20" fill="#f5d5c8"/>
+        <line x1="0" y1="10" x2="20" y2="10" stroke="#c9943a" stroke-width="0.4" opacity="0.3"/>
+        <line x1="10" y1="0" x2="10" y2="20" stroke="#c9943a" stroke-width="0.4" opacity="0.3"/>
+        <circle cx="10" cy="10" r="1.5" fill="#c9943a" opacity="0.25"/>
+      </pattern>
+    </defs>
+    <rect width="300" height="400" fill="url(#zari)"/>
+    <!-- kurta -->
+    <path d="M95,55 L75,85 L58,105 L72,114 L86,100 L86,260 Q86,272 98,272 L202,272 Q214,272 214,260 L214,100 L228,114 L242,105 L225,85 L205,55 Q180,44 150,44 Q120,44 95,55 Z" fill="#f0c4b4" opacity="0.9"/>
+    <!-- palazzo pants -->
+    <path d="M100,272 L88,370 L130,370 L150,310 L170,370 L212,370 L200,272 Z" fill="#f0c4b4" opacity="0.85"/>
+    <!-- zari border on kurta hem -->
+    <rect x="86" y="252" width="128" height="10" fill="#c9943a" opacity="0.55" rx="1"/>
+    <rect x="86" y="256" width="128" height="3" fill="#e8b86d" opacity="0.6" rx="1"/>
+    <!-- zari border on pants hem -->
+    <rect x="88" y="358" width="42" height="8" fill="#c9943a" opacity="0.5" rx="1"/>
+    <rect x="170" y="358" width="42" height="8" fill="#c9943a" opacity="0.5" rx="1"/>
+    <!-- neckline with gold -->
+    <path d="M122,55 Q150,78 178,55" fill="none" stroke="#c9943a" stroke-width="2.5"/>
+    <!-- dupatta hint across shoulder -->
+    <path d="M60,90 Q120,130 150,115 Q180,100 220,130 L215,145 Q185,115 150,130 Q115,145 65,105 Z" fill="#f8ddd5" opacity="0.6"/>
+    <!-- delicate embroidery dots -->
+    <circle cx="150" cy="160" r="2" fill="#c9943a" opacity="0.5"/>
+    <circle cx="140" cy="175" r="1.5" fill="#c9943a" opacity="0.4"/>
+    <circle cx="160" cy="175" r="1.5" fill="#c9943a" opacity="0.4"/>
+    <circle cx="150" cy="190" r="2" fill="#c9943a" opacity="0.5"/>
+    <circle cx="135" cy="190" r="1.2" fill="#c9943a" opacity="0.3"/>
+    <circle cx="165" cy="190" r="1.2" fill="#c9943a" opacity="0.3"/>
+  `, '#f5d5c8'),
+
+  // 3: Sage Green Linen Co-ord — earthy sage with minimal texture
+  3: makeSVG(`
+    <defs>
+      <pattern id="linen" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+        <rect width="4" height="4" fill="#7a9270"/>
+        <line x1="0" y1="2" x2="4" y2="2" stroke="#6a8060" stroke-width="0.5" opacity="0.4"/>
+        <line x1="2" y1="0" x2="2" y2="4" stroke="#6a8060" stroke-width="0.5" opacity="0.3"/>
+      </pattern>
+    </defs>
+    <rect width="300" height="400" fill="url(#linen)"/>
+    <!-- boxy crop top -->
+    <rect x="90" y="70" width="120" height="100" rx="4" fill="#5c7a52" opacity="0.88"/>
+    <!-- wide leg pants -->
+    <path d="M85,175 L75,370 L138,370 L150,280 L162,370 L225,370 L215,175 Z" fill="#5c7a52" opacity="0.85"/>
+    <!-- top neckline — scoop -->
+    <path d="M90,82 Q150,105 210,82" fill="#7a9270" stroke="#4a6840" stroke-width="1"/>
+    <!-- raw hem on top -->
+    <line x1="90" y1="170" x2="210" y2="170" stroke="#4a6840" stroke-width="1.5"/>
+    <!-- side seam lines -->
+    <line x1="90" y1="82" x2="90" y2="170" stroke="#4a6840" stroke-width="0.8" opacity="0.5"/>
+    <line x1="210" y1="82" x2="210" y2="170" stroke="#4a6840" stroke-width="0.8" opacity="0.5"/>
+    <!-- pants seam -->
+    <line x1="150" y1="175" x2="150" y2="280" stroke="#4a6840" stroke-width="0.8" opacity="0.5"/>
+    <!-- small patch pocket detail -->
+    <rect x="105" y="120" width="28" height="22" rx="2" fill="none" stroke="#4a6840" stroke-width="1.2"/>
+    <!-- waistband -->
+    <rect x="85" y="170" width="130" height="12" fill="#4a6840" opacity="0.6" rx="2"/>
+  `, '#8aaa80'),
+
+  // 4: Bandhani Cotton Kurta — warm marigold with tie-dye circles
+  4: makeSVG(`
+    <defs>
+      <radialGradient id="spot" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#fff8e7" stop-opacity="0.9"/>
+        <stop offset="60%" stop-color="#f5c842" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="#e07b20" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="300" height="400" fill="#e07b20"/>
+    <!-- bandhani spots scattered across fabric -->
+    ${Array.from({length:48}, (_,i) => {
+      const x = 15 + (i % 8) * 34 + (Math.floor(i/8)%2)*17;
+      const y = 15 + Math.floor(i/8) * 52;
+      const r = 9 + (i*7)%6;
+      return `<circle cx="${x}" cy="${y}" r="${r}" fill="url(#spot)"/>
+              <circle cx="${x}" cy="${y}" r="${r*0.4}" fill="#fff8e7" opacity="0.35"/>`;
+    }).join('')}
+    <!-- kurta silhouette on top -->
+    <path d="M92,58 L72,88 L54,108 L68,116 L82,103 L82,315 Q82,330 97,330 L203,330 Q218,330 218,315 L218,103 L232,116 L246,108 L228,88 L208,58 Q183,48 150,48 Q117,48 92,58 Z" fill="#c85e10" opacity="0.75"/>
+    <!-- flared hem accent -->
+    <path d="M82,300 Q110,320 150,315 Q190,310 218,300 L218,315 Q218,330 203,330 L97,330 Q82,330 82,315 Z" fill="#a04a08" opacity="0.6"/>
+    <!-- neckline -->
+    <path d="M120,58 Q150,82 180,58" fill="none" stroke="#f5c842" stroke-width="2.5"/>
+    <!-- sleeve end cuffs -->
+    <ellipse cx="61" cy="112" rx="10" ry="5" fill="#f5c842" opacity="0.6"/>
+    <ellipse cx="239" cy="112" rx="10" ry="5" fill="#f5c842" opacity="0.6"/>
+  `, '#e07b20'),
+
+  // 5: Rust Ikat Dupatta — flat draped scarf with ikat weave pattern
+  5: makeSVG(`
+    <defs>
+      <pattern id="ikat" x="0" y="0" width="30" height="24" patternUnits="userSpaceOnUse">
+        <rect width="30" height="24" fill="#9b3a1a"/>
+        <polygon points="15,2 22,8 22,16 15,22 8,16 8,8" fill="none" stroke="#d4784a" stroke-width="1.2"/>
+        <polygon points="15,6 19,10 19,14 15,18 11,14 11,10" fill="#c45e32" opacity="0.6"/>
+        <line x1="0" y1="12" x2="8" y2="12" stroke="#d4784a" stroke-width="0.8" opacity="0.5"/>
+        <line x1="22" y1="12" x2="30" y2="12" stroke="#d4784a" stroke-width="0.8" opacity="0.5"/>
+        <circle cx="0" cy="0" r="2" fill="#e8a070" opacity="0.3"/>
+        <circle cx="30" cy="0" r="2" fill="#e8a070" opacity="0.3"/>
+        <circle cx="0" cy="24" r="2" fill="#e8a070" opacity="0.3"/>
+        <circle cx="30" cy="24" r="2" fill="#e8a070" opacity="0.3"/>
+      </pattern>
+    </defs>
+    <rect width="300" height="400" fill="url(#ikat)"/>
+    <!-- draped dupatta shape -->
+    <path d="M40,60 Q80,50 150,55 Q220,60 260,50 L265,355 Q225,365 150,360 Q75,355 35,365 Z" fill="#7a2a0e" opacity="0.5"/>
+    <!-- fringes at top -->
+    ${Array.from({length:18}, (_,i) => `<line x1="${45+i*13}" y1="50" x2="${47+i*13}" y2="30" stroke="#e8a070" stroke-width="1.5" opacity="0.7"/>`).join('')}
+    <!-- fringes at bottom -->
+    ${Array.from({length:18}, (_,i) => `<line x1="${45+i*13}" y1="360" x2="${47+i*13}" y2="380" stroke="#e8a070" stroke-width="1.5" opacity="0.7"/>`).join('')}
+    <!-- border stripe top -->
+    <rect x="35" y="55" width="230" height="12" fill="#d4784a" opacity="0.55" rx="1"/>
+    <rect x="35" y="60" width="230" height="4" fill="#f0c0a0" opacity="0.4" rx="1"/>
+    <!-- border stripe bottom -->
+    <rect x="35" y="345" width="230" height="12" fill="#d4784a" opacity="0.55" rx="1"/>
+    <rect x="35" y="350" width="230" height="4" fill="#f0c0a0" opacity="0.4" rx="1"/>
+  `, '#9b3a1a'),
+
+  // 6: Midnight Anarkali Set — deep navy with silver threadwork
+  6: makeSVG(`
+    <defs>
+      <pattern id="silver" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+        <rect width="16" height="16" fill="#0d1b3e"/>
+        <circle cx="8" cy="8" r="1" fill="#c0c8e0" opacity="0.2"/>
+        <line x1="0" y1="8" x2="5" y2="8" stroke="#c0c8e0" stroke-width="0.4" opacity="0.15"/>
+        <line x1="11" y1="8" x2="16" y2="8" stroke="#c0c8e0" stroke-width="0.4" opacity="0.15"/>
+        <line x1="8" y1="0" x2="8" y2="5" stroke="#c0c8e0" stroke-width="0.4" opacity="0.15"/>
+        <line x1="8" y1="11" x2="8" y2="16" stroke="#c0c8e0" stroke-width="0.4" opacity="0.15"/>
+      </pattern>
+    </defs>
+    <rect width="300" height="400" fill="url(#silver)"/>
+    <!-- anarkali flared silhouette -->
+    <path d="M100,55 L78,85 L60,108 L75,116 L88,102 L88,200 Q88,210 80,220 L40,370 L130,370 L150,280 L170,370 L260,370 L220,220 Q212,210 212,200 L212,102 L225,116 L240,108 L222,85 L200,55 Q175,44 150,44 Q125,44 100,55 Z" fill="#0d1b3e" opacity="0.93"/>
+    <!-- silver threadwork at neckline -->
+    <path d="M115,55 Q150,78 185,55" fill="none" stroke="#c0c8e0" stroke-width="2"/>
+    ${Array.from({length:8}, (_,i) => {
+      const x = 122 + i*8;
+      return `<circle cx="${x}" cy="${62 + (i%2)*4}" r="2" fill="#c0c8e0" opacity="0.7"/>`;
+    }).join('')}
+    <!-- silver border at hem -->
+    <path d="M40,360 L130,360 L150,275 L170,360 L260,360 L262,370 L38,370 Z" fill="#1a2d5a" opacity="0.5"/>
+    <path d="M42,362 L128,362 L150,278 L172,362 L258,362" fill="none" stroke="#c0c8e0" stroke-width="1.5" opacity="0.6"/>
+    ${Array.from({length:14}, (_,i) => `<circle cx="${50+i*15}" cy="${362}" r="1.5" fill="#c0c8e0" opacity="0.5"/>`).join('')}
+    ${Array.from({length:14}, (_,i) => `<circle cx="${50+i*15}" cy="${368}" r="1.5" fill="#c0c8e0" opacity="0.5"/>`).join('')}
+    <!-- waist seam -->
+    <path d="M88,185 Q150,195 212,185" fill="none" stroke="#c0c8e0" stroke-width="1" opacity="0.4"/>
+    <!-- small shoulder embellishments -->
+    <circle cx="92" cy="95" r="3" fill="#c0c8e0" opacity="0.5"/>
+    <circle cx="208" cy="95" r="3" fill="#c0c8e0" opacity="0.5"/>
+  `, '#0d1b3e'),
+
+  // 7: Terracotta Printed Co-ord — warm terracotta with white abstract print
+  7: makeSVG(`
+    <defs>
+      <pattern id="abstract" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+        <rect width="50" height="50" fill="#c05a35"/>
+        <path d="M10,10 Q18,5 25,15 Q32,25 25,30 Q18,35 10,25 Q5,18 10,10 Z" fill="none" stroke="#f0e8d8" stroke-width="1.2" opacity="0.55"/>
+        <path d="M35,8 Q42,14 40,22 Q38,30 30,28 Q22,26 25,18 Q28,10 35,8 Z" fill="#f0e8d8" opacity="0.18"/>
+        <circle cx="8" cy="40" r="4" fill="none" stroke="#f0e8d8" stroke-width="1" opacity="0.4"/>
+        <line x1="38" y1="38" x2="48" y2="48" stroke="#f0e8d8" stroke-width="1" opacity="0.3"/>
+        <line x1="38" y1="48" x2="48" y2="38" stroke="#f0e8d8" stroke-width="1" opacity="0.3"/>
+        <circle cx="43" cy="43" r="3" fill="none" stroke="#f0e8d8" stroke-width="0.8" opacity="0.4"/>
+      </pattern>
+    </defs>
+    <rect width="300" height="400" fill="url(#abstract)"/>
+    <!-- sleeveless top -->
+    <path d="M95,75 L78,68 L65,90 L80,98 L88,88 L88,178 Q88,188 100,188 L200,188 Q212,188 212,178 L212,88 L220,98 L235,90 L222,68 L205,75 Q178,62 150,62 Q122,62 95,75 Z" fill="#a04428" opacity="0.88"/>
+    <!-- wide culotte pants -->
+    <path d="M82,192 L65,370 L138,370 L150,295 L162,370 L235,370 L218,192 Z" fill="#a04428" opacity="0.85"/>
+    <!-- scoop neckline -->
+    <path d="M95,80 Q150,105 205,80" fill="none" stroke="#f0e8d8" stroke-width="2"/>
+    <!-- armhole definition -->
+    <path d="M78,68 Q72,80 80,98" fill="none" stroke="#7a3018" stroke-width="1"/>
+    <path d="M222,68 Q228,80 220,98" fill="none" stroke="#7a3018" stroke-width="1"/>
+    <!-- waistband -->
+    <rect x="82" y="185" width="136" height="14" fill="#7a3018" opacity="0.65" rx="2"/>
+    <!-- culotte hem line -->
+    <line x1="65" y1="360" x2="138" y2="360" stroke="#7a3018" stroke-width="1.5" opacity="0.5"/>
+    <line x1="162" y1="360" x2="235" y2="360" stroke="#7a3018" stroke-width="1.5" opacity="0.5"/>
+  `, '#c05a35'),
+
+  // 8: Ivory Lucknowi Kurta — off-white with chikankari embroidery
+  8: makeSVG(`
+    <defs>
+      <pattern id="chikan" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+        <rect width="28" height="28" fill="#f8f2e8"/>
+        <circle cx="14" cy="14" r="4" fill="none" stroke="#d4c8b0" stroke-width="0.8"/>
+        <circle cx="14" cy="14" r="1.5" fill="#d4c8b0" opacity="0.5"/>
+        <line x1="14" y1="8" x2="14" y2="4" stroke="#d4c8b0" stroke-width="0.7" opacity="0.6"/>
+        <line x1="14" y1="20" x2="14" y2="24" stroke="#d4c8b0" stroke-width="0.7" opacity="0.6"/>
+        <line x1="8" y1="14" x2="4" y2="14" stroke="#d4c8b0" stroke-width="0.7" opacity="0.6"/>
+        <line x1="20" y1="14" x2="24" y2="14" stroke="#d4c8b0" stroke-width="0.7" opacity="0.6"/>
+        <circle cx="14" cy="4" r="1.2" fill="#d4c8b0" opacity="0.5"/>
+        <circle cx="14" cy="24" r="1.2" fill="#d4c8b0" opacity="0.5"/>
+        <circle cx="4" cy="14" r="1.2" fill="#d4c8b0" opacity="0.5"/>
+        <circle cx="24" cy="14" r="1.2" fill="#d4c8b0" opacity="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="300" height="400" fill="url(#chikan)"/>
+    <!-- straight kurta silhouette -->
+    <path d="M93,58 L73,88 L56,108 L70,116 L83,103 L83,320 Q83,335 98,335 L202,335 Q217,335 217,320 L217,103 L230,116 L244,108 L227,88 L207,58 Q182,47 150,47 Q118,47 93,58 Z" fill="#ede6d8" opacity="0.88"/>
+    <!-- side slits at hem -->
+    <line x1="83" y1="295" x2="83" y2="335" stroke="#f8f2e8" stroke-width="3"/>
+    <line x1="217" y1="295" x2="217" y2="335" stroke="#f8f2e8" stroke-width="3"/>
+    <!-- dense chikankari band around neckline -->
+    <path d="M115,58 Q150,82 185,58 Q175,74 150,80 Q125,74 115,58 Z" fill="#ddd5c5" opacity="0.55"/>
+    ${Array.from({length:12}, (_,i) => {
+      const angle = (i/12)*Math.PI;
+      const x = 150 + 36 * Math.cos(Math.PI - angle);
+      const y = 64 + 18 * Math.sin(Math.PI - angle) * 0.6;
+      return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2" fill="#b8a888" opacity="0.6"/>`;
+    }).join('')}
+    <!-- chikankari panel in centre front -->
+    <ellipse cx="150" cy="185" rx="22" ry="38" fill="none" stroke="#c8b898" stroke-width="0.8" opacity="0.6"/>
+    ${Array.from({length:6}, (_,i) => {
+      const y = 158 + i*10;
+      return `<line x1="132" y1="${y}" x2="168" y2="${y}" stroke="#c8b898" stroke-width="0.5" opacity="0.4" stroke-dasharray="2 3"/>`;
+    }).join('')}
+    <!-- buttons -->
+    ${Array.from({length:5}, (_,i) => `<circle cx="150" cy="${85+i*18}" r="2" fill="#c8b898" opacity="0.6"/>`).join('')}
+  `, '#f8f2e8')
+};
+
+let products = [
+  {
+    id: 1,
+    name: 'Indigo Block Print Kurta',
+    category: 'Kurta',
+    description: 'Handblock printed on soft Rajasthani cotton. Straight fit, 3/4 sleeves. Perfect for casual outings and festive occasions.',
+    price: 1299,
+    qty: 8,
+    images: [PRODUCT_IMAGES[1]]
+  },
+  {
+    id: 2,
+    name: 'Rose Gold Chanderi Set',
+    category: 'Salwar Set',
+    description: 'Lightweight Chanderi silk with delicate gold zari border. Includes kurta, palazzo and matching dupatta. Ideal for weddings.',
+    price: 3499,
+    qty: 3,
+    images: [PRODUCT_IMAGES[2]]
+  },
+  {
+    id: 3,
+    name: 'Sage Green Linen Co-ord',
+    category: 'Co-ord Set',
+    description: 'Pure linen co-ord set in earthy sage. Boxy crop top and wide leg pants. Breathable and stylish for summer days.',
+    price: 2199,
+    qty: 0,
+    images: [PRODUCT_IMAGES[3]]
+  },
+  {
+    id: 4,
+    name: 'Bandhani Cotton Kurta',
+    category: 'Kurta',
+    description: 'Traditional tie-dye bandhani pattern on soft cotton. Flared hem, three-quarter sleeves. Available in S to XL.',
+    price: 1599,
+    qty: 12,
+    images: [PRODUCT_IMAGES[4]]
+  },
+  {
+    id: 5,
+    name: 'Rust Ikat Dupatta',
+    category: 'Dupatta',
+    description: 'Handwoven ikat dupatta in warm rust and ivory tones. Goes beautifully with plain kurtis or salwar sets.',
+    price: 699,
+    qty: 6,
+    images: [PRODUCT_IMAGES[5]]
+  },
+  {
+    id: 6,
+    name: 'Midnight Anarkali Set',
+    category: 'Salwar Set',
+    description: 'Deep navy Anarkali with silver threadwork at neckline and hem. Georgette fabric, fully lined. Party and festive wear.',
+    price: 4200,
+    qty: 2,
+    images: [PRODUCT_IMAGES[6]]
+  },
+  {
+    id: 7,
+    name: 'Terracotta Printed Co-ord',
+    category: 'Co-ord Set',
+    description: 'Earthy terracotta with white abstract print. Sleeveless top and wide-leg culottes. Beach and resort-ready.',
+    price: 1899,
+    qty: 5,
+    images: [PRODUCT_IMAGES[7]]
+  },
+  {
+    id: 8,
+    name: 'Ivory Lucknowi Kurta',
+    category: 'Kurta',
+    description: 'Fine chikankari embroidery on pure white mul cotton. Straight cut with side slits. Elegant everyday wear.',
+    price: 2299,
+    qty: 4,
+    images: [PRODUCT_IMAGES[8]]
+  }
+];
+
+let nextId = 9;
+
+// ══════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════
+const CREDENTIALS = {
+  user:  { pass: 'user123',  role: 'customer' },
+  admin: { pass: 'admin123', role: 'admin' }
+};
+
+let currentTab = 'customer';
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.login-tab').forEach((t,i) => t.classList.toggle('active', i===(tab==='customer'?0:1)));
+  document.getElementById('login-error').style.display = 'none';
+}
+
+function doLogin() {
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const cred = CREDENTIALS[user];
+  if (!cred || cred.pass !== pass) {
+    document.getElementById('login-error').style.display = 'block';
+    return;
+  }
+  document.getElementById('login-error').style.display = 'none';
+  document.getElementById('login-user').value = '';
+  document.getElementById('login-pass').value = '';
+  if (cred.role === 'admin') {
+    showScreen('admin-screen');
+    renderAdminTable();
+    renderAdminStats();
+  } else {
+    showScreen('customer-screen');
+    renderProducts('all');
+  }
+}
+
+function doLogout() {
+  showScreen('login-screen');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ══════════════════════════════════════
+//  CUSTOMER VIEW
+// ══════════════════════════════════════
+function filterProducts(cat, el) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts(cat);
+}
+
+function stockInfo(qty) {
+  if (qty === 0) return { label: 'Out of stock', cls: 'out' };
+  if (qty <= 3)  return { label: 'Low stock', cls: 'low' };
+  return { label: 'In stock', cls: 'in' };
+}
+
+function renderProducts(cat) {
+  const grid = document.getElementById('products-grid');
+  const list = cat === 'all' ? products : products.filter(p => p.category === cat);
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><p>No products in this category yet.</p></div>';
+    return;
+  }
+  grid.innerHTML = list.map(p => {
+    const s = stockInfo(p.qty);
+    const imgHtml = p.images && p.images.length > 0
+      ? `<img src="${p.images[0]}" alt="${p.name}">`
+      : `<div class="product-image-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo coming</span></div>`;
+    return `
+      <div class="product-card">
+        <div class="product-image">
+          ${imgHtml}
+          <span class="stock-badge ${s.cls}">${s.label}</span>
+          <span class="category-tag">${p.category}</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.description}</div>
+          <div class="product-footer">
+            <div class="product-price"><span>₹</span>${p.price.toLocaleString('en-IN')}</div>
+            <div class="product-qty">${p.qty > 0 ? p.qty + ' left' : 'Unavailable'}</div>
+          </div>
+        </div>
+        ${p.qty > 0 ? `<a class="whatsapp-btn" href="https://wa.me/919486195701?text=Hi%2C+I%27m+interested+in+${encodeURIComponent(p.name)}+(₹${p.price})+from+Adhigai+Boutique." target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Order on WhatsApp
+        </a>` : ''}
+      </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════
+//  ADMIN VIEW
+// ══════════════════════════════════════
+function showAdminSection(name, el) {
+  ['products','add','stats'].forEach(s => {
+    document.getElementById('section-'+s).style.display = s===name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  if (name === 'stats') renderStatsSection();
+}
+
+function renderAdminStats() {
+  const total = products.length;
+  const inStock = products.filter(p => p.qty > 0).length;
+  const outStock = products.filter(p => p.qty === 0).length;
+  const lowStock = products.filter(p => p.qty > 0 && p.qty <= 3).length;
+  document.getElementById('admin-product-count').textContent = `${total} products · ${inStock} in stock`;
+  document.getElementById('admin-stats-row').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Total Products</div><div class="stat-value">${total}</div></div>
+    <div class="stat-card"><div class="stat-label">In Stock</div><div class="stat-value" style="color:var(--sage)">${inStock}</div></div>
+    <div class="stat-card"><div class="stat-label">Low Stock</div><div class="stat-value" style="color:var(--gold)">${lowStock}</div><div class="stat-note">≤ 3 units</div></div>
+    <div class="stat-card"><div class="stat-label">Out of Stock</div><div class="stat-value" style="color:var(--rust)">${outStock}</div></div>
+  `;
+}
+
+function renderAdminTable() {
+  renderAdminStats();
+  const tbody = document.getElementById('admin-table-body');
+  tbody.innerHTML = products.map(p => {
+    const s = stockInfo(p.qty);
+    const imgHtml = p.images && p.images.length > 0
+      ? `<img src="${p.images[0]}" alt="">`
+      : `<div class="thumb-empty">📷</div>`;
+    return `
+      <tr>
+        <td>
+          <div class="product-cell">
+            <div class="thumb-wrap">${imgHtml}</div>
+            <div>
+              <div class="product-cell-name">${p.name}</div>
+              <div class="product-cell-cat">${p.images ? p.images.length : 0} photo${(p.images||[]).length===1?'':'s'}</div>
+            </div>
+          </div>
+        </td>
+        <td>₹${p.price.toLocaleString('en-IN')}</td>
+        <td>${p.category}</td>
+        <td><span class="badge badge-${s.cls}">${s.label}</span></td>
+        <td>${p.qty}</td>
+        <td>
+          <div class="action-btns">
+            <button class="btn-edit" onclick="openEditModal(${p.id})">Edit</button>
+            <button class="btn-img" onclick="openImgModal(${p.id})">Photos</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+// ── EDIT MODAL ──
+function openEditModal(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-name').value = p.name;
+  document.getElementById('edit-price').value = p.price;
+  document.getElementById('edit-qty').value = p.qty;
+  document.getElementById('edit-cat').value = p.category;
+  document.getElementById('edit-desc').value = p.description;
+  openModal('edit-modal');
+}
+
+function saveEdit() {
+  const id = parseInt(document.getElementById('edit-id').value);
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  p.name        = document.getElementById('edit-name').value.trim() || p.name;
+  p.price       = parseInt(document.getElementById('edit-price').value) || p.price;
+  p.qty         = parseInt(document.getElementById('edit-qty').value) || 0;
+  p.category    = document.getElementById('edit-cat').value;
+  p.description = document.getElementById('edit-desc').value.trim() || p.description;
+  closeModal('edit-modal');
+  renderAdminTable();
+  showToast('Product updated successfully');
+}
+
+// ── IMAGE MODAL ──
+function openImgModal(id) {
+  document.getElementById('img-product-id').value = id;
+  renderImgPreview(id);
+  openModal('img-modal');
+}
+
+function renderImgPreview(id) {
+  const p = products.find(x => x.id === id);
+  const grid = document.getElementById('img-preview-grid');
+  if (!p || !p.images || p.images.length === 0) {
+    grid.innerHTML = '<div style="color:var(--ink-mute);font-size:12px;letter-spacing:0.5px;">No photos yet — upload above.</div>';
+    return;
+  }
+  grid.innerHTML = p.images.map((src, i) => `
+    <div class="image-preview-item">
+      <img src="${src}" alt="photo ${i+1}">
+      <button class="img-remove" onclick="removeImg(${id},${i})">×</button>
+    </div>`).join('');
+}
+
+function removeImg(productId, idx) {
+  const p = products.find(x => x.id === productId);
+  if (!p) return;
+  p.images.splice(idx, 1);
+  renderImgPreview(productId);
+  renderAdminTable();
+  showToast('Photo removed');
+}
+
+function handleImageUpload(input) {
+  const id = parseInt(document.getElementById('img-product-id').value);
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const files = Array.from(input.files).slice(0, 5 - (p.images||[]).length);
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      if (!p.images) p.images = [];
+      p.images.push(e.target.result);
+      renderImgPreview(id);
+      renderAdminTable();
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+  showToast('Photo uploaded!');
+}
+
+// ── ADD PRODUCT ──
+let addImages = [];
+
+function handleAddImages(input) {
+  const files = Array.from(input.files).slice(0, 5 - addImages.length);
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      addImages.push(e.target.result);
+      renderAddPreview();
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
+function renderAddPreview() {
+  const grid = document.getElementById('add-preview-grid');
+  grid.innerHTML = addImages.map((src, i) => `
+    <div class="image-preview-item">
+      <img src="${src}" alt="">
+      <button class="img-remove" onclick="removeAddImg(${i})">×</button>
+    </div>`).join('');
+}
+
+function removeAddImg(i) {
+  addImages.splice(i, 1);
+  renderAddPreview();
+}
+
+function clearAddForm() {
+  ['add-name','add-desc','add-price','add-qty'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('add-cat').value = 'Kurta';
+  addImages = [];
+  document.getElementById('add-preview-grid').innerHTML = '';
+}
+
+function saveNewProduct() {
+  const name  = document.getElementById('add-name').value.trim();
+  const price = parseInt(document.getElementById('add-price').value);
+  const qty   = parseInt(document.getElementById('add-qty').value);
+  if (!name || isNaN(price) || isNaN(qty)) { showToast('Please fill in name, price and quantity.'); return; }
+  products.push({
+    id: nextId++,
+    name,
+    category: document.getElementById('add-cat').value,
+    description: document.getElementById('add-desc').value.trim() || 'No description yet.',
+    price,
+    qty,
+    images: [...addImages]
+  });
+  clearAddForm();
+  renderAdminTable();
+  showToast('Product added!');
+  // Switch to product list
+  showAdminSection('products', document.querySelectorAll('.sidebar-item')[0]);
+}
+
+function openAddModal() {
+  showAdminSection('add', document.querySelectorAll('.sidebar-item')[1]);
+}
+
+// ── STATS SECTION ──
+function renderStatsSection() {
+  const total = products.length;
+  const inStock = products.filter(p => p.qty > 0).length;
+  const totalValue = products.reduce((s,p) => s + p.price * p.qty, 0);
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Total Products</div><div class="stat-value">${total}</div></div>
+    <div class="stat-card"><div class="stat-label">In Stock</div><div class="stat-value" style="color:var(--sage)">${inStock}</div></div>
+    <div class="stat-card"><div class="stat-label">Inventory Value</div><div class="stat-value">₹${(totalValue/1000).toFixed(1)}k</div><div class="stat-note">at current prices</div></div>
+    <div class="stat-card"><div class="stat-label">Categories</div><div class="stat-value">${[...new Set(products.map(p=>p.category))].length}</div></div>
+  `;
+  const cats = [...new Set(products.map(p => p.category))];
+  document.getElementById('stats-breakdown').innerHTML = cats.map(cat => {
+    const items = products.filter(p => p.category === cat);
+    const total = items.length;
+    const inS = items.filter(p => p.qty > 0).length;
+    const pct = Math.round(inS/total*100);
+    return `
+      <div style="margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);margin-bottom:6px">
+          <span>${cat}</span>
+          <span>${inS}/${total} in stock</span>
+        </div>
+        <div style="height:4px;background:var(--paper-3);border-radius:2px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:var(--gold);border-radius:2px;transition:width 0.4s"></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── UTILS ──
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
