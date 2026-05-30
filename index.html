@@ -3,29 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adhigai Boutique</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Adhigai — Women's Array</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink:       #1a1410;
-    --ink-soft:  #5c4f43;
-    --ink-mute:  #9c8c7e;
-    --paper:     #faf6f1;
-    --paper-2:   #f2ebe1;
-    --paper-3:   #e8ddd0;
-    --gold:      #b8864e;
-    --gold-light:#d4a96a;
-    --gold-pale: #f5e8d4;
-    --rust:      #9b4f2a;
-    --sage:      #6b7c5e;
-    --cream:     #fff9f2;
+    --mustard:      #d4a017;
+    --mustard-deep: #b8860b;
+    --mustard-dark: #8b6508;
+    --mustard-pale: #fdf3d0;
+    --mustard-soft: #f5e08a;
+    --ink:          #1c1a14;
+    --ink-soft:     #4a4232;
+    --ink-mute:     #8a7d60;
+    --paper:        #fdfaf2;
+    --paper-2:      #f7f0d8;
+    --paper-3:      #ede0b8;
+    --sage:         #6b7c5e;
+    --rust:         #9b4f2a;
+    --cream:        #fffef8;
+    --gold:         #d4a017;
+    --gold-light:   #f5e08a;
+    --gold-pale:    #fdf3d0;
     --radius:    4px;
-    --shadow:    0 2px 20px rgba(26,20,16,0.08);
-    --shadow-lg: 0 8px 40px rgba(26,20,16,0.14);
+    --shadow:    0 2px 20px rgba(28,26,20,0.08);
+    --shadow-lg: 0 8px 40px rgba(28,26,20,0.16);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     background: var(--paper);
     color: var(--ink);
     min-height: 100vh;
@@ -49,15 +54,15 @@
   .login-bg {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(184,134,78,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(107,124,94,0.08) 0%, transparent 50%);
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(212,160,23,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(212,160,23,0.08) 0%, transparent 50%);
   }
   .login-card {
     position: relative;
     background: var(--cream);
     border: 1px solid var(--paper-3);
     border-radius: 2px;
-    padding: 52px 48px 48px;
+    padding: 40px 48px 48px;
     width: 420px;
     box-shadow: var(--shadow-lg);
   }
@@ -65,39 +70,13 @@
     text-align: center;
     margin-bottom: 36px;
   }
-  .brand-emblem {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 64px; height: 64px;
-    border: 1.5px solid var(--gold);
-    border-radius: 50%;
-    margin-bottom: 14px;
-    position: relative;
-  }
-  .brand-emblem::before {
-    content: '';
-    position: absolute;
-    inset: 5px;
-    border: 0.5px solid var(--gold-light);
-    border-radius: 50%;
-  }
-  .brand-emblem span {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px;
-    font-weight: 300;
-    color: var(--gold);
-    letter-spacing: 1px;
-    line-height: 1;
-  }
-  .brand-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    font-weight: 300;
-    letter-spacing: 4px;
-    color: var(--ink);
-    text-transform: uppercase;
-    display: block;
+  .brand-logo-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 20px rgba(212,160,23,0.25);
   }
   .brand-tagline {
     font-size: 11px;
@@ -127,7 +106,7 @@
     transition: all 0.2s;
     background: none;
     border-top: none; border-left: none; border-right: none;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
   }
   .login-tab.active {
     color: var(--gold);
@@ -150,7 +129,7 @@
     border: 1px solid var(--paper-3);
     border-radius: var(--radius);
     font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     color: var(--ink);
     outline: none;
     transition: border-color 0.2s;
@@ -164,7 +143,7 @@
     color: var(--cream);
     border: none;
     border-radius: var(--radius);
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     font-size: 12px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -194,6 +173,7 @@
   nav {
     background: var(--cream);
     border-bottom: 1px solid var(--paper-3);
+    border-top: 3px solid var(--mustard);
     padding: 0 48px;
     display: flex;
     align-items: center;
@@ -207,19 +187,17 @@
     gap: 14px;
   }
   .nav-emblem {
-    width: 38px; height: 38px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
   }
-  .nav-emblem span {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--gold);
+  .nav-emblem img {
+    width: 100%; height: 100%;
+    object-fit: cover;
   }
   .nav-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 22px;
     font-weight: 400;
     letter-spacing: 3px;
@@ -247,14 +225,14 @@
     padding: 7px 16px;
     border-radius: var(--radius);
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     transition: all 0.2s;
   }
   .btn-logout:hover { border-color: var(--gold); color: var(--gold); }
 
   /* ── CUSTOMER VIEW ── */
   .shop-hero {
-    background: var(--paper-2);
+    background: linear-gradient(135deg, var(--mustard-pale) 0%, var(--paper-2) 100%);
     border-bottom: 1px solid var(--paper-3);
     padding: 48px 48px 40px;
     display: flex;
@@ -263,7 +241,7 @@
     gap: 24px;
   }
   .hero-text h1 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 48px;
     font-weight: 300;
     line-height: 1;
@@ -318,7 +296,7 @@
     border: 1px solid var(--paper-3);
     background: transparent;
     font-size: 12px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     color: var(--ink-soft);
     cursor: pointer;
     transition: all 0.2s;
@@ -395,7 +373,7 @@
   }
   .product-info { padding: 16px 18px 20px; }
   .product-name {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 20px;
     font-weight: 400;
     color: var(--ink);
@@ -418,7 +396,7 @@
     justify-content: space-between;
   }
   .product-price {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 22px;
     font-weight: 500;
     color: var(--ink);
@@ -428,7 +406,7 @@
     font-weight: 300;
     color: var(--ink-soft);
     margin-right: 2px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
   }
   .product-qty {
     font-size: 11px;
@@ -450,7 +428,7 @@
     text-transform: uppercase;
     color: var(--ink-soft);
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     transition: all 0.2s;
     text-decoration: none;
   }
@@ -490,7 +468,7 @@
     background: none;
     border-top: none; border-right: none; border-bottom: none;
     width: 100%;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     text-align: left;
   }
   .sidebar-item:hover { color: var(--gold); background: var(--gold-pale); }
@@ -506,7 +484,7 @@
     margin-bottom: 28px;
   }
   .admin-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 30px;
     font-weight: 400;
     color: var(--ink);
@@ -524,7 +502,7 @@
     font-size: 12px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     cursor: pointer;
     transition: background 0.2s;
   }
@@ -544,7 +522,7 @@
     padding: 20px 22px;
   }
   .stat-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 8px; }
-  .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 400; color: var(--ink); line-height: 1; }
+  .stat-value { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 400; color: var(--ink); line-height: 1; }
   .stat-note { font-size: 11px; color: var(--ink-mute); margin-top: 4px; }
 
   /* Admin product table */
@@ -590,7 +568,7 @@
     color: var(--ink-mute); font-size: 18px;
   }
   .product-cell { display: flex; align-items: center; gap: 14px; }
-  .product-cell-name { font-family: 'Cormorant Garamond', serif; font-size: 17px; color: var(--ink); }
+  .product-cell-name { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--ink); }
   .product-cell-cat { font-size: 11px; color: var(--ink-mute); letter-spacing: 0.5px; }
   .badge {
     display: inline-block;
@@ -611,7 +589,7 @@
     padding: 6px 14px;
     border-radius: var(--radius);
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     transition: all 0.2s;
   }
   .btn-edit {
@@ -656,7 +634,7 @@
     justify-content: space-between;
   }
   .modal-title {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 24px;
     font-weight: 400;
     color: var(--ink);
@@ -683,7 +661,7 @@
     border: 1px solid var(--paper-3);
     border-radius: var(--radius);
     font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     color: var(--ink);
     outline: none;
     transition: border-color 0.2s;
@@ -699,7 +677,7 @@
     border: 1px solid var(--paper-3);
     border-radius: var(--radius);
     font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     color: var(--ink);
     outline: none;
     appearance: none;
@@ -769,7 +747,7 @@
     text-transform: uppercase;
     color: var(--ink-soft);
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     transition: all 0.2s;
   }
   .btn-cancel:hover { border-color: var(--ink-soft); }
@@ -783,7 +761,7 @@
     text-transform: uppercase;
     color: white;
     cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Jost', sans-serif;
     transition: background 0.2s;
   }
   .btn-save:hover { background: var(--rust); }
@@ -826,9 +804,7 @@
   <div class="login-bg"></div>
   <div class="login-card">
     <div class="brand-logo">
-      <div class="brand-emblem"><span>A</span></div>
-      <span class="brand-name">Adhigai</span>
-      <span class="brand-tagline">Handcrafted Indian Wear</span>
+      <img class="brand-logo-img" src="data:image/jpeg;base64,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" alt="Adhigai Women's Array">
     </div>
     <div class="login-tabs">
       <button class="login-tab active" onclick="switchTab('customer')">Customer</button>
@@ -857,7 +833,7 @@
 <div id="customer-screen" class="screen">
   <nav>
     <div class="nav-brand">
-      <div class="nav-emblem"><span>A</span></div>
+      <div class="nav-emblem"><img src="data:image/jpeg;base64,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" alt="Adhigai"></div>
       <span class="nav-title">Adhigai</span>
     </div>
     <div class="nav-right">
@@ -868,7 +844,7 @@
 
   <div class="shop-hero">
     <div class="hero-text">
-      <h1>New <em>Arrivals</em><br>Summer '25</h1>
+      <h1>New <em>Arrivals</em><br>Summer '26</h1>
       <p>Handpicked kurtas, salwars and co-ord sets crafted from breathable cotton and luxurious silks. Shipped across India.</p>
     </div>
     <div class="hero-meta">
@@ -900,7 +876,7 @@
 <div id="admin-screen" class="screen">
   <nav>
     <div class="nav-brand">
-      <div class="nav-emblem"><span>A</span></div>
+      <div class="nav-emblem"><img src="data:image/jpeg;base64,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" alt="Adhigai"></div>
       <span class="nav-title">Adhigai — Admin</span>
     </div>
     <div class="nav-right">
